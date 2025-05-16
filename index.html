@@ -2,23 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover" />
   <title>Mood Jungles Game</title>
   <style>
-    html, body, canvas {
+    html, body {
       margin: 0;
       padding: 0;
-      width: 100vw;
-      height: 100vh;
       overflow: hidden;
+      width: 100%;
+      height: 100%;
       background: #90ee90;
       font-family: sans-serif;
       touch-action: manipulation;
     }
+    canvas {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
     #startScreen, #gameOverScreen {
       position: absolute;
       top: 0; left: 0;
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
       background: rgba(0, 0, 0, 0.7);
       display: flex;
       flex-direction: column;
@@ -27,12 +34,13 @@
       z-index: 10;
     }
     h1 {
-      font-size: 3rem;
+      font-size: 2.5rem;
       margin-bottom: 20px;
+      color: white;
     }
     button {
-      font-size: 1.8rem;
-      padding: 15px 30px;
+      font-size: 1.5rem;
+      padding: 12px 24px;
       cursor: pointer;
       border: none;
       border-radius: 10px;
@@ -43,7 +51,7 @@
       position: absolute;
       top: 10px;
       left: 10px;
-      font-size: 22px;
+      font-size: 20px;
       color: #004400;
       font-weight: bold;
       z-index: 5;
@@ -62,7 +70,7 @@
 
 <div id="startScreen">
   <h1>Mood Jungles Game</h1>
-  <button id="startBtn">Start Game</button>
+  <button id="startBtn" disabled>Start Game</button>
 </div>
 
 <div id="gameOverScreen" style="display:none;">
@@ -80,6 +88,19 @@
   const canvas = document.getElementById('gameCanvas');
   const ctx = canvas.getContext('2d');
 
+  function resizeCanvas() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    canvas.width = width;
+    canvas.height = height;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  window.addEventListener('orientationchange', resizeCanvas);
+  window.addEventListener('load', resizeCanvas);
+  resizeCanvas();
+
   const startBtn = document.getElementById('startBtn');
   const restartBtn = document.getElementById('restartBtn');
   const bgMusic = document.getElementById('bgMusic');
@@ -88,13 +109,6 @@
   const startScreen = document.getElementById('startScreen');
   const gameOverScreen = document.getElementById('gameOverScreen');
   const finalTimeText = document.getElementById('finalTime');
-
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
 
   const playerImage = new Image();
   const guitarImage = new Image();
@@ -127,17 +141,17 @@
   coinImage.onerror = imageError;
 
   const player = {
-    x: canvas.width / 2 - 200,
-    y: canvas.height - 400,
-    width: 400,
-    height: 400
+    x: canvas.width / 2 - 100,
+    y: canvas.height - 200,
+    width: 200,
+    height: 200
   };
 
   const playerHitbox = {
-    get x() { return player.x + 210; },
-    get y() { return player.y + 210; },
-    get width() { return player.width - 415; },
-    get height() { return player.height - 415; }
+    get x() { return player.x + 105; },
+    get y() { return player.y + 105; },
+    get width() { return player.width - 115; },
+    get height() { return player.height - 115; }
   };
 
   let guitars = [];
@@ -149,7 +163,7 @@
   let startTime = 0;
 
   function spawnGuitar() {
-    const size = 200 + Math.random() * 50;
+    const size = 100 + Math.random() * 25;
     guitars.push({
       x: Math.random() * (canvas.width - size),
       y: -size,
@@ -160,7 +174,7 @@
   }
 
   function spawnCoin() {
-    const size = 60;
+    const size = 30;
     coins.push({
       x: Math.random() * (canvas.width - size),
       y: -size,
@@ -198,7 +212,7 @@
 
     // Draw Score
     ctx.fillStyle = '#004400';
-    ctx.font = '28px sans-serif';
+    ctx.font = '24px sans-serif';
     ctx.textAlign = 'right';
     ctx.fillText(`Score: ${score}`, canvas.width - 20, 40);
 
@@ -208,10 +222,10 @@
       ctx.drawImage(guitarImage, g.x, g.y, g.width, g.height);
 
       const guitarHitbox = {
-        x: g.x + 30,
-        y: g.y + 25,
-        width: g.width - 60,
-        height: g.height - 55
+        x: g.x + 15,
+        y: g.y + 12,
+        width: g.width - 30,
+        height: g.height - 30
       };
 
       if (isColliding(playerHitbox, guitarHitbox)) {
@@ -227,11 +241,11 @@
       ctx.drawImage(coinImage, c.x, c.y, c.width, c.height);
 
       const coinHitbox = {
-  x: c.x - 2, // expand left
-  y: c.y - 2, // expand up
-  width: c.width + 7, // expand width (left + right)
-  height: c.height + 7 // expand height (top + bottom)
-};
+        x: c.x - 1,
+        y: c.y - 1,
+        width: c.width + 4,
+        height: c.height + 4
+      };
 
       if (isColliding(playerHitbox, coinHitbox)) {
         score++;
@@ -272,7 +286,7 @@
     gameRunning = true;
     resetGame();
     bgMusic.play().catch(() => {
-      window.addEventListener('click', () => bgMusic.play(), { once: true });
+      window.addEventListener('touchstart', () => bgMusic.play(), { once: true });
     });
     gameLoop();
   }
