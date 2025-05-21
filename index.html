@@ -291,8 +291,8 @@
   function clampPlayer() {
   const leftMargin = -80; // allow going slightly offscreen to the left
   const rightMargin = 80; // allow going slightly offscreen to the right
-  const topMargin = 50;
-  const bottomMargin = 50;
+  const topMargin = 100;
+  const bottomMargin = 100;
 
   player.x = Math.min(Math.max(leftMargin, player.x), canvas.width - player.width + rightMargin);
   player.y = Math.min(Math.max(topMargin, player.y), canvas.height - player.height + bottomMargin);
