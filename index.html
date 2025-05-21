@@ -148,10 +148,10 @@
   };
 
   const playerHitbox = {
-    get x() { return player.x + 50; },
-    get y() { return player.y + 50; },
-    get width() { return player.width - 100; },
-    get height() { return player.height - 100; }
+    get x() { return player.x + 60; },
+    get y() { return player.y + 60; },
+    get width() { return player.width - 140; },
+    get height() { return player.height - 140; }
   };
 
   let guitars = [];
@@ -220,10 +220,10 @@
       ctx.drawImage(guitarImage, g.x, g.y, g.width, g.height);
 
       const guitarHitbox = {
-        x: g.x + 25,
-        y: g.y + 25,
-        width: g.width - 50,
-        height: g.height - 50
+        x: g.x + 35,
+        y: g.y + 35,
+        width: g.width - 70,
+        height: g.height - 70
       };
 
       if (isColliding(playerHitbox, guitarHitbox)) {
@@ -238,10 +238,10 @@
       ctx.drawImage(coinImage, c.x, c.y, c.width, c.height);
 
       const coinHitbox = {
-        x: c.x + 5,
-        y: c.y + 5,
-        width: c.width - 10,
-        height: c.height - 10
+        x: c.x + 10,
+        y: c.y + 10,
+        width: c.width - 20,
+        height: c.height - 20
       };
 
       if (isColliding(playerHitbox, coinHitbox)) {
