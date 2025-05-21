@@ -289,9 +289,9 @@
   }
 
   function clampPlayer() {
-    player.x = Math.min(Math.max(0, player.x), canvas.width - player.width);
-    player.y = Math.min(Math.max(0, player.y), canvas.height - player.height);
-  }
+  player.x = Math.min(Math.max(-50, player.x), canvas.width - player.width + 50);
+  player.y = Math.min(Math.max(-50, player.y), canvas.height - player.height + 50);
+}
 
   window.addEventListener('touchmove', e => {
     if (gameRunning && e.touches.length > 0) {
