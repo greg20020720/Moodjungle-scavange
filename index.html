@@ -89,12 +89,10 @@
   const ctx = canvas.getContext('2d');
 
   function resizeCanvas() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    canvas.style.width = width + 'px';
-    canvas.style.height = height + 'px';
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.style.width = canvas.width + 'px';
+    canvas.style.height = canvas.height + 'px';
   }
   window.addEventListener('resize', resizeCanvas);
   window.addEventListener('orientationchange', resizeCanvas);
@@ -119,6 +117,7 @@
 
   let imagesLoaded = 0;
   let imageLoadError = false;
+  const debug = false;
 
   function imageLoaded() {
     imagesLoaded++;
@@ -148,11 +147,10 @@
   };
 
   const playerHitbox = {
-    get x() { return player.x + 105; },
-    get y() { return player.y + 105; },
-    get width() { return player.width - 400; },
-    get height() { return player.height - 400
-    ; }
+    get x() { return player.x + 20; },
+    get y() { return player.y + 20; },
+    get width() { return player.width - 40; },
+    get height() { return player.height - 40; }
   };
 
   let guitars = [];
@@ -211,14 +209,18 @@
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(playerImage, player.x, player.y, player.width, player.height);
 
-    // Draw Score
+    if (debug) {
+      ctx.strokeStyle = 'red';
+      ctx.strokeRect(playerHitbox.x, playerHitbox.y, playerHitbox.width, playerHitbox.height);
+    }
+
     ctx.fillStyle = '#004400';
     ctx.font = '24px sans-serif';
     ctx.textAlign = 'right';
     ctx.fillText(`Score: ${score}`, canvas.width - 20, 40);
 
-    // Guitars
-    guitars.forEach((g, i) => {
+    for (let i = guitars.length - 1; i >= 0; i--) {
+      const g = guitars[i];
       g.y += g.speed;
       ctx.drawImage(guitarImage, g.x, g.y, g.width, g.height);
 
@@ -234,10 +236,10 @@
       }
 
       if (g.y > canvas.height) guitars.splice(i, 1);
-    });
+    }
 
-    // Coins
-    coins.forEach((c, i) => {
+    for (let i = coins.length - 1; i >= 0; i--) {
+      const c = coins[i];
       c.y += c.speed;
       ctx.drawImage(coinImage, c.x, c.y, c.width, c.height);
 
@@ -251,10 +253,10 @@
       if (isColliding(playerHitbox, coinHitbox)) {
         score++;
         coins.splice(i, 1);
+      } else if (c.y > canvas.height) {
+        coins.splice(i, 1);
       }
-
-      if (c.y > canvas.height) coins.splice(i, 1);
-    });
+    }
 
     frameCount++;
     if (frameCount % spawnInterval === 0) {
