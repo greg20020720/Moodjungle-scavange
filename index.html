@@ -289,8 +289,9 @@
   }
 
   function clampPlayer() {
-  player.x = Math.min(Math.max(-50, player.x), canvas.width - player.width + 50);
-  player.y = Math.min(Math.max(-50, player.y), canvas.height - player.height + 50);
+  const margin = 50; // same as your hitbox margin
+  player.x = Math.min(Math.max(-margin, player.x), canvas.width - player.width + margin);
+  player.y = Math.min(Math.max(-margin, player.y), canvas.height - player.height + margin);
 }
 
   window.addEventListener('touchmove', e => {
