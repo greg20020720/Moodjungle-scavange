@@ -238,10 +238,10 @@
       ctx.drawImage(coinImage, c.x, c.y, c.width, c.height);
 
       const coinHitbox = {
-        x: c.x + 25,
-        y: c.y + 25,
-        width: c.width - 50,
-        height: c.height - 50
+        x: c.x + 15,
+        y: c.y + 15,
+        width: c.width - 30,
+        height: c.height - 30
       };
 
       if (isColliding(playerHitbox, coinHitbox)) {
@@ -289,8 +289,8 @@
   }
 
   function clampPlayer() {
-  const leftMargin = -75; // allow going slightly offscreen to the left
-  const rightMargin = 75; // allow going slightly offscreen to the right
+  const leftMargin = -80; // allow going slightly offscreen to the left
+  const rightMargin = 80; // allow going slightly offscreen to the right
   const topMargin = 0;
   const bottomMargin = 0;
 
