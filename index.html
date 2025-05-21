@@ -111,38 +111,40 @@
   const finalTimeText = document.getElementById('finalTime');
 
   const playerImage = new Image();
-  const guitarImage = new Image();
-  const coinImage = new Image();
-  const backgroundImage = new Image();
-  playerImage.src = 'player.png';
-  guitarImage.src = 'guitar.png';
-  coinImage.src = 'coin.png';
-  backgroundImage.src = 'background.png';
+const guitarImage = new Image();
+const coinImage = new Image();
+const backgroundImage = new Image();
 
-  let imagesLoaded = 0;
-  let imageLoadError = false;
+playerImage.src = 'player.png';
+guitarImage.src = 'guitar.png';
+coinImage.src = 'coin.png';
+backgroundImage.src = 'background.png';
 
-  function imageLoaded() {
-    imagesLoaded++;
-    if (imagesLoaded === 4) {
-      debugText.textContent = "✅ All images loaded. Tap Start!";
-      startBtn.disabled = false;
-    }
+let imagesLoaded = 0;
+let imageLoadError = false;
+
+function imageLoaded() {
+  imagesLoaded++;
+  if (imagesLoaded === 4) {
+    debugText.textContent = "✅ All images loaded. Tap Start!";
+    startBtn.disabled = false;
   }
+}
 
-  function imageError() {
-    imageLoadError = true;
-    debugText.textContent = "❌ Error loading images.";
-  }
+function imageError() {
+  imageLoadError = true;
+  debugText.textContent = "❌ Error loading images.";
+}
 
-  playerImage.onload = imageLoaded;
-  guitarImage.onload = imageLoaded;
-  coinImage.onload = imageLoaded;
-  backgroundImage.onload = imageLoaded;
-  playerImage.onerror = imageError;
-  guitarImage.onerror = imageError;
-  coinImage.onerror = imageError;
-  backgroundImage.onerror = imageError;
+playerImage.onload = imageLoaded;
+guitarImage.onload = imageLoaded;
+coinImage.onload = imageLoaded;
+backgroundImage.onload = imageLoaded;
+
+playerImage.onerror = imageError;
+guitarImage.onerror = imageError;
+coinImage.onerror = imageError;
+backgroundImage.onerror = imageError;
 
   const player = {
     x: canvas.width / 2 - 100,
