@@ -227,10 +227,10 @@ backgroundImage.onerror = imageError;
       ctx.drawImage(guitarImage, g.x, g.y, g.width, g.height);
 
       const guitarHitbox = {
-        x: g.x + 55,
-        y: g.y + 55,
-        width: g.width - 110,
-        height: g.height - 110
+        x: g.x + 60,
+        y: g.y + 60,
+        width: g.width - 120,
+        height: g.height - 120
       };
 
       if (isColliding(playerHitbox, guitarHitbox)) {
